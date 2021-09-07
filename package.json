@@ -1,7 +1,7 @@
 {
   "name": "@kosatyi/is-type",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist",
   "author": {
     "name": "Stepan Kosatyi",
     "url": "https://kosatyi.com"

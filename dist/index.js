@@ -37,7 +37,33 @@ exports.isFile = isFile;
 exports.isPromise = isPromise;
 exports.isError = isError;
 exports.isNaNValue = isNaNValue;
+Object.defineProperty(exports, "schemaFilter", {
+  enumerable: true,
+  get: function get() {
+    return _schema.schemaFilter;
+  }
+});
+Object.defineProperty(exports, "and", {
+  enumerable: true,
+  get: function get() {
+    return _schema.and;
+  }
+});
+Object.defineProperty(exports, "or", {
+  enumerable: true,
+  get: function get() {
+    return _schema.or;
+  }
+});
+Object.defineProperty(exports, "oneOf", {
+  enumerable: true,
+  get: function get() {
+    return _schema.oneOf;
+  }
+});
 exports.isPrimitive = exports.isNullOrUndefined = void 0;
+
+var _schema = require("./schema");
 
 function isOneOf() {
   var checks = [].slice.call(arguments);

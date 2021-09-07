@@ -1,3 +1,5 @@
+export {schemaFilter,and,or,oneOf} from './schema';
+
 export function isOneOf() {
     const checks = [].slice.call(arguments);
     return function (v){

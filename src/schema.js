@@ -73,7 +73,7 @@ export function schemaFilter(object, schema) {
             }
         }
         if (isObject(type)) {
-            return [prop, validate(object[prop], schema[prop])];
+            return [prop, schemaFilter(object[prop], schema[prop])];
         }
         return null;
     }).filter((i) => i);

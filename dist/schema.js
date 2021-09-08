@@ -93,6 +93,10 @@ function schemaFilter(object, schema) {
         prop = _ref2[0],
         type = _ref2[1];
 
+    if ((0, _index.isUndefined)(object)) {
+      return null;
+    }
+
     if ((0, _index.isPrimitive)(type)) {
       if (object[prop] === type) {
         return [prop, object[prop]];

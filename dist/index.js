@@ -82,7 +82,7 @@ function getType(o) {
  * @param {*} o
  * @param {T} type
  * @throws {TypeError} Will throw type error if type is an invalid type
- * @returns {payload is T}
+ * @returns {boolean}
  */
 
 

@@ -1,4 +1,4 @@
-import {isObject, isPrimitive, isType} from "./index";
+import {isObject, isPrimitive, isType, isUndefined} from "./index";
 
 const propertyCheck = '_$validation$_';
 
@@ -51,6 +51,9 @@ export function schemaFilter(object, schema) {
      * @type {[[]]}
      */
     const result = Object.entries(schema).map(([prop, type]) => {
+        if (isUndefined(object)) {
+            return null;
+        }
         if (isPrimitive(type)) {
             if (object[prop] === type) {
                 return [prop, object[prop]];

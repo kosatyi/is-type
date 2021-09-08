@@ -18,7 +18,7 @@ export function getType(o){
  * @param {*} o
  * @param {T} type
  * @throws {TypeError} Will throw type error if type is an invalid type
- * @returns {payload is T}
+ * @returns {boolean}
  */
 export function isType(o, type) {
     if (!(type instanceof Function)) {
@@ -156,6 +156,7 @@ export function isError(o) {
 export function isNaNValue(o) {
     return getType(o) === 'number' && isNaN(o);
 }
+
 
 export const isNullOrUndefined = isOneOf(isNull, isUndefined);
 

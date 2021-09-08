@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.merge = merge;
 exports.oneOf = oneOf;
 exports.or = or;
 exports.and = and;
@@ -51,9 +52,29 @@ var inner = function inner(value) {
   };
 };
 
+function merge(target) {
+  for (var _len = arguments.length, list = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    list[_key - 1] = arguments[_key];
+  }
+
+  for (var _i = 0, _Object$keys = Object.keys(list); _i < _Object$keys.length; _i++) {
+    var index = _Object$keys[_i];
+    var source = list[index];
+
+    for (var _i2 = 0, _Object$keys2 = Object.keys(source); _i2 < _Object$keys2.length; _i2++) {
+      var key = _Object$keys2[_i2];
+      if (source[key] instanceof Object) Object.assign(source[key], merge(target[key], source[key]));
+    }
+
+    Object.assign(target || {}, source);
+  }
+
+  return target;
+}
+
 function oneOf() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
+  for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    args[_key2] = arguments[_key2];
   }
 
   return wrapper(function (value) {
@@ -64,8 +85,8 @@ function oneOf() {
 }
 
 function or() {
-  for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    args[_key2] = arguments[_key2];
+  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+    args[_key3] = arguments[_key3];
   }
 
   return wrapper(function (value) {
@@ -74,8 +95,8 @@ function or() {
 }
 
 function and() {
-  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    args[_key3] = arguments[_key3];
+  for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+    args[_key4] = arguments[_key4];
   }
 
   return wrapper(function (value) {

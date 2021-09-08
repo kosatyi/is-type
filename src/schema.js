@@ -43,15 +43,6 @@ export function oneOf(...args) {
     })
 }
 
-export function oneOf(...args) {
-    return wrapper((value) => {
-        return args.some((type) => {
-            return value === type;
-        });
-    })
-}
-
-
 export function or(...args) {
     return wrapper((value) => {
         return args.some(inner(value));

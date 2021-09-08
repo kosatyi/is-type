@@ -66,7 +66,7 @@ function merge(target) {
 
     for (var _i2 = 0, _Object$keys2 = Object.keys(source); _i2 < _Object$keys2.length; _i2++) {
       var key = _Object$keys2[_i2];
-      if (source[key] instanceof Object) Object.assign(source[key], merge(target[key], source[key]));
+      if ((0, _type.isPlainObject)(source[key])) Object.assign(source[key], merge(target[key], source[key]));
     }
 
     Object.assign(target || {}, source);

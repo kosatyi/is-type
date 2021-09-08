@@ -1,4 +1,4 @@
-import {isType,isFullArray,isUndefined,isFullObject,isFunction,isPrimitive} from "./type";
+import {isType,isPlainObject,isFullArray,isUndefined,isFullObject,isFunction,isPrimitive} from "./type";
 
 const propertyCheck = '_$validation$_';
 
@@ -39,7 +39,7 @@ export function merge(target, ...list) {
     for (const index of Object.keys(list)) {
         const source = list[index];
         for (const key of Object.keys(source)) {
-            if (source[key] instanceof Object)
+            if (isPlainObject(source[key]))
                 Object.assign(source[key], merge(target[key], source[key]))
         }
         Object.assign(target || {}, source)

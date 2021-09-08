@@ -14,8 +14,8 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "",
-    "start": "babel -w src -d dist --presets=@babel/preset-env",
-    "build": "babel src -d dist --presets=@babel/preset-env",
+    "start": "babel -w src -d dist --presets=@babel/preset-env --source-maps",
+    "build": "babel src -d dist --presets=@babel/preset-env --source-maps",
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"

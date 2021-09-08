@@ -1,8 +1,7 @@
 {
   "name": "@kosatyi/is-type",
   "version": "1.0.0",
-  "main": "dist",
-  "author": {
+    "author": {
     "name": "Stepan Kosatyi",
     "url": "https://kosatyi.com"
   },
@@ -10,6 +9,9 @@
     "type": "git",
     "url": "git://github.com/kosatyi/is-type.git"
   },
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "",
     "start": "babel -w src -d dist --presets=@babel/preset-env",

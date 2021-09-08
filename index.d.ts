@@ -1,6 +1,6 @@
 declare module '@kosatyi/is-type' {
 
-    module Type {
+    export module Type {
 
         export function isOneOf(...callbacks: Function[]): Function;
 
@@ -76,7 +76,7 @@ declare module '@kosatyi/is-type' {
 
     }
 
-    module Schema {
+    export module Schema {
 
         interface Schema extends Object {
 
@@ -104,11 +104,6 @@ declare module '@kosatyi/is-type' {
          */
         export function filter(object: Object, schema: Schema): Schema;
 
-    }
-
-    export {
-        Schema,
-        Type
     }
 
 }

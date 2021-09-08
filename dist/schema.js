@@ -7,21 +7,10 @@ exports.merge = merge;
 exports.oneOf = oneOf;
 exports.or = or;
 exports.and = and;
+exports.arrayOf = arrayOf;
 exports.filter = filter;
 
-var _index = require("./index");
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var _type = require("./type");
 
 var propertyCheck = '_$validation$_';
 
@@ -40,7 +29,7 @@ var wrapper = function wrapper(cb) {
 
 var inner = function inner(value) {
   return function (type) {
-    if ((0, _index.isPrimitive)(type)) {
+    if ((0, _type.isPrimitive)(type)) {
       return value === type;
     }
 
@@ -48,7 +37,21 @@ var inner = function inner(value) {
       return type(value);
     }
 
-    return (0, _index.isType)(value, type);
+    return (0, _type.isFunction)(type) && (0, _type.isType)(value, type);
+  };
+};
+
+var outer = function outer(type) {
+  return function (value) {
+    if ((0, _type.isPrimitive)(type)) {
+      return value === type;
+    }
+
+    if (isValidationFunction(type)) {
+      return type(value);
+    }
+
+    return (0, _type.isFunction)(type) && (0, _type.isType)(value, type);
   };
 };
 
@@ -77,6 +80,7 @@ function oneOf() {
     args[_key2] = arguments[_key2];
   }
 
+  var result = false;
   return wrapper(function (value) {
     return args.some(function (type) {
       return value === type;
@@ -89,6 +93,7 @@ function or() {
     args[_key3] = arguments[_key3];
   }
 
+  var result = false;
   return wrapper(function (value) {
     return args.some(inner(value));
   });
@@ -99,56 +104,65 @@ function and() {
     args[_key4] = arguments[_key4];
   }
 
+  var result = false;
   return wrapper(function (value) {
     return args.every(inner(value));
   });
 }
 
-function filter(object, schema) {
-  /**
-   * @name result
-   * @type {[[]]}
-   */
-  var result = Object.entries(schema).map(function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-        prop = _ref2[0],
-        type = _ref2[1];
+function arrayOf(type) {
+  return wrapper(function (value) {
+    return (0, _type.isFullArray)(value) && value.every(outer(type));
+  });
+}
 
-    if ((0, _index.isUndefined)(object)) {
-      return null;
+function filter(object, schema, arrayLike) {
+  var result = arrayLike ? [] : {};
+
+  for (var _i3 = 0, _Object$keys3 = Object.keys(schema); _i3 < _Object$keys3.length; _i3++) {
+    var prop = _Object$keys3[_i3];
+    var type = schema[prop];
+
+    if ((0, _type.isUndefined)(object)) {
+      continue;
     }
 
-    if ((0, _index.isPrimitive)(type)) {
+    if ((0, _type.isPrimitive)(type)) {
       if (object[prop] === type) {
-        return [prop, object[prop]];
+        result[prop] = object[prop];
       } else {
-        return null;
+        continue;
       }
     }
 
     if (isValidationFunction(type)) {
       if (type(object[prop], prop)) {
-        return [prop, object[prop]];
+        result[prop] = object[prop];
       } else {
-        return null;
+        continue;
       }
     }
 
     if (isTypeObject(type)) {
-      if ((0, _index.isType)(object[prop], type)) {
-        return [prop, object[prop]];
+      if ((0, _type.isType)(object[prop], type)) {
+        result[prop] = object[prop];
       } else {
-        return null;
+        continue;
       }
     }
 
-    if ((0, _index.isObject)(type)) {
-      return [prop, filter(object[prop], schema[prop])];
+    if ((0, _type.isFullArray)(type) && (0, _type.isFullArray)(object[prop])) {
+      if (type.length === object[prop].length) {
+        result[prop] = filter(object[prop], schema[prop], true);
+      } else {
+        continue;
+      }
     }
 
-    return null;
-  }).filter(function (i) {
-    return i;
-  });
-  return Object.fromEntries(result);
+    if ((0, _type.isFullObject)(type)) {
+      result[prop] = filter(object[prop], schema[prop]);
+    }
+  }
+
+  return result;
 }

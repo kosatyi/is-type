@@ -1,4 +1,4 @@
-import {isObject, isPrimitive, isType, isUndefined} from "./index";
+import {isType,isFullArray,isUndefined,isFullObject,isFunction,isPrimitive} from "./type";
 
 const propertyCheck = '_$validation$_';
 
@@ -19,7 +19,19 @@ const inner = (value) => {
         if (isValidationFunction(type)) {
             return type(value);
         }
-        return isType(value, type);
+        return isFunction(type) && isType(value, type);
+    }
+}
+
+const outer = (type) => {
+    return (value) => {
+        if (isPrimitive(type)) {
+            return value === type;
+        }
+        if (isValidationFunction(type)) {
+            return type(value);
+        }
+        return isFunction(type) && isType(value, type);
     }
 }
 
@@ -36,6 +48,7 @@ export function merge(target, ...list) {
 }
 
 export function oneOf(...args) {
+    let result = false;
     return wrapper((value) => {
         return args.some((type) => {
             return value === type;
@@ -44,51 +57,63 @@ export function oneOf(...args) {
 }
 
 export function or(...args) {
+    let result = false;
     return wrapper((value) => {
         return args.some(inner(value));
     })
 }
 
 export function and(...args) {
+    let result = false;
     return wrapper((value) => {
         return args.every(inner(value));
     })
 }
 
-export function filter(object, schema) {
-    /**
-     * @name result
-     * @type {[[]]}
-     */
-    const result = Object.entries(schema).map(([prop, type]) => {
+export function arrayOf(type) {
+    return wrapper((value) => {
+        return isFullArray(value) && value.every(outer(type));
+    })
+}
+
+export function filter(object, schema, arrayLike) {
+    let result = arrayLike ? [] : {};
+    for(let prop of Object.keys(schema)){
+        let type  = schema[prop];
         if (isUndefined(object)) {
-            return null;
+            continue;
         }
         if (isPrimitive(type)) {
             if (object[prop] === type) {
-                return [prop, object[prop]];
+                result[prop] = object[prop];
             } else {
-                return null;
+                continue;
             }
         }
         if (isValidationFunction(type)) {
             if (type(object[prop], prop)) {
-                return [prop, object[prop]];
+                result[prop] = object[prop];
             } else {
-                return null;
+                continue;
             }
         }
         if (isTypeObject(type)) {
             if (isType(object[prop], type)) {
-                return [prop, object[prop]];
+                result[prop] = object[prop];
             } else {
-                return null;
+                continue;
             }
         }
-        if (isObject(type)) {
-            return [prop, filter(object[prop], schema[prop])];
+        if(isFullArray(type) && isFullArray(object[prop])){
+            if( type.length === object[prop].length){
+                result[prop] = filter(object[prop], schema[prop],true);
+            } else {
+                continue;
+            }
         }
-        return null;
-    }).filter((i) => i);
-    return Object.fromEntries(result);
+        if (isFullObject(type)) {
+            result[prop] = filter(object[prop], schema[prop]);
+        }
+    }
+    return result;
 }

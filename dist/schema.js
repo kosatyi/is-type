@@ -85,7 +85,7 @@ function and() {
 
 function filter(object, schema) {
   /**
-   *
+   * @name result
    * @type {[[]]}
    */
   var result = Object.entries(schema).map(function (_ref) {

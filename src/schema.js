@@ -38,7 +38,6 @@ export function or(...args) {
     })
 }
 
-
 export function and(...args) {
     return wrapper((value) => {
         return args.every(inner(value));
@@ -47,7 +46,7 @@ export function and(...args) {
 
 export function filter(object, schema) {
     /**
-     *
+     * @name result
      * @type {[[]]}
      */
     const result = Object.entries(schema).map(([prop, type]) => {

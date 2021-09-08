@@ -166,4 +166,3 @@ function filter(object, schema, arrayLike) {
 
   return result;
 }
-//# sourceMappingURL=schema.js.map

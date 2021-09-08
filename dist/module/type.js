@@ -202,4 +202,3 @@ var isNullOrUndefined = isOneOf(isNull, isUndefined);
 exports.isNullOrUndefined = isNullOrUndefined;
 var isPrimitive = isOneOf(isBoolean, isNull, isUndefined, isNumber, isString, isSymbol);
 exports.isPrimitive = isPrimitive;
-//# sourceMappingURL=type.js.map

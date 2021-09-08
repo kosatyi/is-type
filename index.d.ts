@@ -82,6 +82,13 @@ export function and(...args: any[]): any;
 
 /**
  *
+ * @param {Object} target
+ * @param {Object[]} list
+ */
+export function merge(target: Object, ...list: Object[]): Schema;
+
+/**
+ *
  * @param {Object} object
  * @param {Schema} schema
  */

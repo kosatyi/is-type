@@ -81,12 +81,8 @@ export function or(...args: any[]): any;
 export function and(...args: any[]): any;
 
 /**
- * Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sodales suscipit neque vel efficitur. Sed ultricies,
- * leo at condimentum rhoncus, justo felis dignissim massa, sed semper ante lectus a est. Sed cursus risus non
- * pellentesque dapibus. Etiam ornare, neque eu faucibus vehicula, neque nibh blandit ex, quis laoreet mauris sem
- * a nunc. Praesent in elit dictum, iaculis metus non, faucibus est. Nulla facilisi. Praesent facilisis orci a
  *
- * @param object
- * @param schema
+ * @param {Object} object
+ * @param {Schema} schema
  */
 export function filter(object: Object, schema: Schema): Schema;

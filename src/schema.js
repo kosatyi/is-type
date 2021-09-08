@@ -23,6 +23,26 @@ const inner = (value) => {
     }
 }
 
+export function merge(target, ...list) {
+    for (const index of Object.keys(list)) {
+        const source = list[index];
+        for (const key of Object.keys(source)) {
+            if (source[key] instanceof Object)
+                Object.assign(source[key], merge(target[key], source[key]))
+        }
+        Object.assign(target || {}, source)
+    }
+    return target;
+}
+
+export function oneOf(...args) {
+    return wrapper((value) => {
+        return args.some((type) => {
+            return value === type;
+        });
+    })
+}
+
 export function oneOf(...args) {
     return wrapper((value) => {
         return args.some((type) => {

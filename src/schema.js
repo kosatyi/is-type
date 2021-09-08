@@ -45,7 +45,7 @@ export function and(...args) {
     })
 }
 
-export function schemaFilter(object, schema) {
+export function filter(object, schema) {
     /**
      *
      * @type {[[]]}
@@ -76,7 +76,7 @@ export function schemaFilter(object, schema) {
             }
         }
         if (isObject(type)) {
-            return [prop, schemaFilter(object[prop], schema[prop])];
+            return [prop, filter(object[prop], schema[prop])];
         }
         return null;
     }).filter((i) => i);

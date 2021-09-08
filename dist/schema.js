@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.oneOf = oneOf;
 exports.or = or;
 exports.and = and;
-exports.schemaFilter = schemaFilter;
+exports.filter = filter;
 
 var _index = require("./index");
 
@@ -83,7 +83,7 @@ function and() {
   });
 }
 
-function schemaFilter(object, schema) {
+function filter(object, schema) {
   /**
    *
    * @type {[[]]}
@@ -122,7 +122,7 @@ function schemaFilter(object, schema) {
     }
 
     if ((0, _index.isObject)(type)) {
-      return [prop, schemaFilter(object[prop], schema[prop])];
+      return [prop, filter(object[prop], schema[prop])];
     }
 
     return null;

@@ -1,2 +1,2 @@
-export * from './schema';
-export * from './type';
+export * as schema from './schema';
+export * as type from './type';

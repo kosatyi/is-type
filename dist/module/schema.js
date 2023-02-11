@@ -52,9 +52,15 @@ function merge(target) {
     var source = list[index];
     for (var _i2 = 0, _Object$keys2 = Object.keys(source); _i2 < _Object$keys2.length; _i2++) {
       var key = _Object$keys2[_i2];
-      if ((0, _type.isPlainObject)(source[key])) Object.assign(source[key], merge(target[key], source[key]));
+      var value = source[key];
+      if ((0, _type.isPlainObject)(value)) {
+        target[key] = merge(target[key] || {}, value);
+      } else if ((0, _type.isArray)(value)) {
+        target[key] = merge(target[key] || [], value);
+      } else {
+        target[key] = value;
+      }
     }
-    Object.assign(target || {}, source);
   }
   return target;
 }

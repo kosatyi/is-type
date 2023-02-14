@@ -8,6 +8,10 @@
   },
   "main": "dist/index.js",
   "module": "src/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "types": "index.d.ts",
   "scripts": {
     "test": "",

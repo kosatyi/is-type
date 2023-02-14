@@ -1,2 +1,2 @@
-export * as Type from './module/type';
-export * as Schema from './module/schema';
+export * as Type from './type';
+export * as Schema from './schema';

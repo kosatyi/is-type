@@ -75,32 +75,14 @@ export module Type {
 }
 
 export module Schema {
-
     interface Schema extends Object {
 
     }
-
     export function oneOf(...args: any[]): any;
-
     export function or(...args: any[]): any;
-
     export function and(...args: any[]): any;
-
     export function arrayOf(type: any): boolean;
-
-    /**
-     *
-     * @param {Object} target
-     * @param {Object[]} list
-     */
-    export function merge(target: Object, ...list: Object[]): Schema;
-
-    /**
-     *
-     * @param {Object} object
-     * @param {Schema} schema
-     */
-    export function filter(object: Object, schema: Schema): Schema;
-
+    export function merge(target: object, ...list: object[]): object;
+    export function filter(object: object, schema: Schema): object;
 }
 

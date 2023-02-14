@@ -82,7 +82,7 @@ export module Schema {
     export function or(...args: any[]): any;
     export function and(...args: any[]): any;
     export function arrayOf(type: any): boolean;
-    export function merge(target: object, ...list: object[]): object;
-    export function filter(object: object, schema: Schema): object;
+    export function merge(target: object, ...list: object[]): {};
+    export function filter(object: object, schema: Schema): {};
 }
 

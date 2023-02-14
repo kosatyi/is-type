@@ -6,14 +6,9 @@
     "type": "git",
     "url": "git://github.com/kosatyi/is-type.git"
   },
-  "main": "dist/index.js",
-  "module": "src/index.js",
+  "main": "dist",
+  "module": "src",
   "types": "index.d.ts",
-  "exports": {
-    ".": "./src/index.js",
-    "./schema": "./src/schema.js",
-    "./type": "./src/type.js"
-  },
   "scripts": {
     "test": "",
     "start": "babel -w src -d dist --presets=@babel/preset-env",

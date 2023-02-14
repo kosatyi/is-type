@@ -9,6 +9,11 @@
   "main": "dist/index.js",
   "module": "src/index.js",
   "types": "index.d.ts",
+  "exports": {
+    ".": "./src/index.js",
+    "./schema": "./src/schema.js",
+    "./type": "./src/type.js"
+  },
   "scripts": {
     "test": "",
     "start": "babel -w src -d dist --presets=@babel/preset-env",
